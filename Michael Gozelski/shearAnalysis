@@ -1,0 +1,92 @@
+"""
+
+Definition of functions:
+
+findShear calculates the wall shear stress value, determined based on applied pressure,
+nozzle radius, and nozzle length.
+
+shearArray generates an array of shear values, from the center of the nozzle to the wall, to enable
+easy plotting of shear vs. position in the nozzle.
+
+maxPressure determines the maximum possible applied pressure without reaching wall shear stress values
+over the predetermined threshold shear.
+
+graphShear generates a 3D plot of shear values in the nozzle to aid in visualization of shear at 
+different positions within the nozzle.
+
+compareShear determines if shear values at two different applied pressures will be significantly different
+through a t-test assuming equal variance, enabling the user to determine if the change in pressure should 
+affect cell behavior, and if there is cell behavior testing required based on a pressure change.
+
+Definition of variables:
+
+press = applied nozzle pressure. This value should be in Pa (Pascals)
+
+nozz_rad = the radius of the nozzle being used. This value should be in m (meters)
+
+nozz_len = lenght of the nozzle being used. This value should be in m (meters)
+
+cell_size = diameter of cells being used. This value should be in m (meters)
+
+thresh = maximum shear value for the cells being used. This value should be in Pa (Pascals)
+
+p1, p2 = these indicate different printing pressures being compared. These values should be in Pa (Pascals)
+
+"""
+
+
+from numpy import *
+import matplotlib.pyplot as plt
+from scipy import stats
+
+
+def findShear(press, nozz_rad, nozz_len):
+    peak=(nozz_rad*press)/(2.0*(nozz_len))
+    return peak
+
+def shearArray(press, nozz_rad, nozz_len, cell_size):
+    dist=linspace(0,1,round(nozz_rad/cell_size))
+    dist=dist*findShear(press)
+    dist=dist + 100.0*random.normal(size=dist.size)
+    return dist
+
+def maxPressure(thresh, nozz_rad, nozz_len):
+    p=0.0
+    sent=True
+    while sent==True:
+        if findShear(p, nozz_rad, nozz_len)>=thresh:
+            sent=False
+        else:
+            p+=10
+    return p
+
+def graphShear(thresh, nozz_rad, nozz_len):
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    pressure=maxPressure(thresh, nozz_rad, nozz_len)
+    print("The maximum pressure setting is {} Pascals\n".format(pressure))
+    r=linspace(0,0.26,1000)
+    thet=linspace(0,2*pi,1000)
+    R, T = meshgrid(r,thet)
+    Z=(R*pressure)/(2*(nozz_len))
+    X, Y = R*cos(T), R*sin(T)
+    plot = ax.plot_surface(X,Y,Z, cmap=plt.cm.YlOrRd)
+    ax.set_xlabel("Distance from Center of Flow (m)",size=7)
+    ax.set_ylabel("Distance from Center of Flow (m)",size=7)
+    ax.set_zticks([])
+    ax.set_title("Shear at Mouth of Nozzle",size=14)
+    c=fig.colorbar(plot, ax=ax, orientation='vertical', shrink=0.7)
+    plt.tight_layout()
+    plt.show()
+    return
+
+def compareShear(p1, p2, nozz_rad, nozz_len, cell_size):
+    s1=shearArray(p1, nozz_rad, nozz_len, cell_size)
+    s2=shearArray(p2, nozz_rad, nozz_len, cell_size)
+    tval, pval = stats.ttest_ind(s1,s2, equal_var = True)
+    tval, pval = stats.ttest_ind(s1,s2, equal_var = True)
+    if pval<=0.05:
+        print("\nThe difference between shear values at printed pressure {} and {} is significant, p = {}".format(p1,p2,pval))
+    else:
+        print("\nThe difference between shear values at printed pressure {} and {} is not significant, p = {}".format(p1,p2,pval))
+    return
