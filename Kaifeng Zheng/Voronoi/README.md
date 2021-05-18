@@ -6,4 +6,4 @@ In this work, we need to use OVITO GUI to calculate Voronoi index for the Cu-Zr 
 	-**voronoianalysis.py** This is the python script used to generate bar plot for 4 different particles.
 	     - input files: Voronoi_IGC4, Voronoi_IGC6, Voronoi_IGC10, Voronoi_MQ<br>
 
-**IF NECESSARY, PLEASE CHANGE THE PATH IN EVERY CODE**
+**IF NECESSARY, PLEASE CHANGE THE PATH WRITING IN EVERY CODE**
