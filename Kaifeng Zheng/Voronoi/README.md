@@ -1,5 +1,5 @@
 # Voronoi bar plot
-In this work, we need to use OVITO GUI to calculate Voronoi index for the Cu-Zr particle. Here are the discriptions of the files.
+In this work, we need to use OVITO GUI to calculate Voronoi index for the Cu-Zr particle. Here are the discriptions of the files.<br>
     -**ovito.voro.py** This is the python script you need to write in OVITO "Python Script" modifier, and run it after run a "Voronoi analysis" modifier (One example).  <br>
 	     -Ovito input file: dump.melt86500000.cfg.gz<br>
 		 -Output file: Voronoi_text<br>
