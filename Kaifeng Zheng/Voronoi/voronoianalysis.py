@@ -6,11 +6,21 @@ import math
 import matplotlib.image as mpimg
 from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
 from matplotlib import rc
-rc('font',**{'family':'serif','serif':['Arial']})
+"""
+This file is to draw a bar plot for the Voronoi statistics 
+for 4 glass particles, i.e 4 bar IGC particle, 6 bar IGC particle,
+10 bar IGC particle and melting-quenching bulk metallic glass(reference)
+"""
+
+rc('font',**{'family':'serif','serif':['Arial']}) #set the font
 
 
 def take(n,iterable):
-    return list(islice(iterable,n))
+    """
+    
+    """
+    return list(islice(iterable,n)) # take elements from a list("iterable") from 0 to n
+#read files
 
 with open("voronoi_MQ","r") as file1:
     voronoi1 = file1.readlines();
@@ -29,7 +39,7 @@ with open("voronoi_IGC10","r") as file4:
 file4.close()
 
 #count numbers and sort
-vorstatics1 = dict()
+vorstatics1 = dict() #using a dictinary to store unique Voronoi index and the frquency
 vorstatics2 = dict()
 vorstatics3 = dict()
 vorstatics4 = dict()
@@ -48,12 +58,12 @@ for value in voronoi4:
     if not vorstatics4.keys().__contains__(value):
         vorstatics4.update({value:voronoi4.count(value)})
 
-#sort
+#sort from most prevelent to the least
 sort_vori1 = sorted(vorstatics1.items(),key = lambda x:x[1],reverse=True)
 sort_vori2 = sorted(vorstatics2.items(),key = lambda x:x[1],reverse=True)
 sort_vori3 = sorted(vorstatics3.items(),key = lambda x:x[1],reverse=True)
 sort_vori4 = sorted(vorstatics4.items(),key = lambda x:x[1],reverse=True)
-
+#Take the first 10
 vor_top101 = take(10,sort_vori1)
 vor_top102 = take(10,sort_vori2)
 vor_top103 = take(10,sort_vori3)
@@ -69,7 +79,7 @@ vor_top104 = take(10,sort_vori4)
 
 #using the order in paper
 countnum1 = np.array([value[1] for value in vor_top101])
-fraction1 = np.round((countnum1/float(len(voronoi1)))*100,5)
+fraction1 = np.round((countnum1/float(len(voronoi1)))*100,5)#calculate the concentration of Voronoi index
 keys1 = [value[0] for value in vor_top101]
 print(keys1)
 #sort
@@ -83,7 +93,7 @@ print("2")
 for i in range(0,len(sort_vori2)):
     for j in range(0,len(vor_top101)):
         if sort_vori2[i][0]==vor_top101[j][0]:
-            fraction2.append((round((float(sort_vori2[i][1]) / float(len(voronoi2))*100), 3)))  #check: let round to 5 digits
+            fraction2.append((round((float(sort_vori2[i][1]) / float(len(voronoi2))*100), 5)))  #check: let round to 5 digits
             keys2.append(sort_vori2[i][0])
             a = a + 1
 
@@ -117,7 +127,7 @@ print(3)
 for i in range(0,len(sort_vori3)):
     for j in range(0,len(vor_top101)):
         if sort_vori3[i][0]==vor_top101[j][0]:
-            fraction3.append((round((float(sort_vori3[i][1]) / float(len(voronoi3))*100), 3)))   #check: let round to 5 digits
+            fraction3.append((round((float(sort_vori3[i][1]) / float(len(voronoi3))*100), 5)))   #check: let round to 5 digits
             keys3.append(sort_vori3[i][0])
             a = a + 1
 
@@ -151,7 +161,7 @@ fraction4 = []
 for i in range(0,len(sort_vori4)):
     for j in range(0,len(vor_top101)):
         if sort_vori4[i][0]==vor_top101[j][0]:
-            fraction4 .append(round((float(sort_vori4[i][1]) / float(len(voronoi4)))*100,3))   #check: let round to 5 digits
+            fraction4 .append(round((float(sort_vori4[i][1]) / float(len(voronoi4)))*100,5))   #check: let round to 5 digits
             keys4.append(sort_vori4[i][0])
             a = a + 1
     if a==len(vor_top101):
@@ -183,8 +193,10 @@ print(keys2)
 print(keys3)
 print(keys4)
 
-width = 0.2
-x1=np.arange(len(keys1))-width*1.5
+
+#plot the bar chart
+width = 0.2 #set width
+x1=np.arange(len(keys1))-width*1.5 #set the center of bar
 x2=np.arange(len(keys2))-width/2
 x3=np.arange(len(keys3))+width/2
 x4=np.arange(len(keys4))+width*1.5
