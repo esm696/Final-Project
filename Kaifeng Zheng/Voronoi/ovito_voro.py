@@ -9,13 +9,17 @@ import os
 This is writing in OVITO, please put the script in "Python script" modifier
 """
 def modify(frame, data):
+    """
+    This modifier is to export Voronoi statistics to your disk with readable 
+    format. We can use the output to do the further analysis
+    """
     #plt.clf()
     print("The input contains %i particles." % data.particles.count)
     atomN = data.particles.count
     atomLayer = []
-    voronoi=data.particles['Voronoi Index'].array
+    voronoi=data.particles['Voronoi Index'].array #get Voronoi index
     print(len(voronoi))
-    ParticleTy = data.particles['Particle Type'].array
+    ParticleTy = data.particles['Particle Type'].array #get particle type 2: Cu 3: Zr
     with open("D:\\Voronoi_text",'w') as file1: #change the path
         for i in range(0,len(voronoi)):
             if ParticleTy[i] == 2:
