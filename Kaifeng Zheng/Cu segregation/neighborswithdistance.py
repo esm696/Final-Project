@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pylab as plt
 from scipy.interpolate import UnivariateSpline
 
+#read files
 with open('10barNND','r') as file1:
     data1 = file1.readlines()
 
@@ -12,49 +13,50 @@ with open('4barNND','r') as file3:
     data3 = file3.readlines()
 
 
-id10 = []
-coord10 = []
-type10 = []
+id10 = []    # Particle identifier
+coord10 = [] # number of neighbors with in a spherical region with 10 angstrom radius 
+type10 = []  # 3: Zr 2: Cu
 
 
-id6 = []
-coord6 = []
-distance6 = []
-type6 = []
+id6 = []# Particle identifier
+coord6 = []# number of neighbors with in a spherical region with 10 angstrom radius 
+distance6 = []# center to atom distance
+type6 = [] # 3: Zr 2: Cu
 
-id4 = []
-coord4 = []
-distance4 = []
-type4 = []
+id4 = []# Particle identifier
+coord4 = []# number of neighbors with in a spherical region with 10 angstrom radius 
+distance4 = []# center to atom distance
+type4 = [] # 3: Zr 2: Cu
 
 for i in range(1,len(data1)):
     temp = data1[i].split()
-    density10 = (float(temp[1])/((4.0/3.0)*np.pi*10**3))*100
-    id10.append(int(temp[0]))
-    coord10.append(density10)
-    type10.append(int(temp[2]))
+    density10 = (float(temp[1])/((4.0/3.0)*np.pi*10**3))*100 # calculate number density in the region with 10 angstrom radius
+    id10.append(int(temp[0]))# get particle identifier
+    coord10.append(density10)# get nnumber of neighbors
+    type10.append(int(temp[2]))# get type of atom
 
 for i in range(1,len(data2)):
     temp = data2[i].split()
-    density6 = (float(temp[1]) / ((4.0 / 3.0) * np.pi*10**3))*100
-    id6.append(int(temp[0]))
-    coord6.append(density6)
-    distance6.append(float(temp[2]))
-    type6.append(int(temp[3]))
+    density6 = (float(temp[1]) / ((4.0 / 3.0) * np.pi*10**3))*100 # calculate number density in the region with 10 angstrom radius
+    id6.append(int(temp[0]))# get particle identifier
+    coord6.append(density6)# get nnumber of neighbors
+    distance6.append(float(temp[2]))# get center to atom distance
+    type6.append(int(temp[3]))# get type 
 
 for i in range(1,len(data3)):
     temp = data3[i].split()
-    density4 = (float(temp[1]) / ((4.0 / 3.0) * np.pi*10**3))*100
-    id4.append(int(temp[0]))
-    coord4.append(density4)
-    distance4.append(float(temp[2]))
-    type4.append(int(temp[3]))
+    density4 = (float(temp[1]) / ((4.0 / 3.0) * np.pi*10**3))*100 # calculate number density in the region with 10 angstrom radius
+    id4.append(int(temp[0]))# get particle identifier
+    coord4.append(density4)# get nnumber of neighbors
+    distance4.append(float(temp[2]))# get center to atom distance
+    type4.append(int(temp[3]))# get type 
 
 
-mincoo10 = min(coord10)
-maxcoo10 = max(coord10)
+mincoo10 = min(coord10)#find min number of neighbors
+maxcoo10 = max(coord10)#find max number of neighbors
 
-co2dis6 = dict()
+
+co2dis6 = dict() #{neighbors:distance}
 mincoo6 = min(coord6)
 maxcoo6 = max(coord6)
 
@@ -62,18 +64,19 @@ co2dis4 = dict()
 mincoo4 = min(coord4)
 maxcoo4 = max(coord4)
 
-
+#add element in it
 for j in range(0,len(id6)):
     if co2dis6.__contains__(coord6[j]):
         co2dis6[coord6[j]].append(distance6[j])
     else:
         co2dis6[coord6[j]]=list()
         co2dis6[coord6[j]].append(distance6[j])
+#sort the ddict 
 keys6 = sorted(co2dis6)
 
 co2dis_sort6 = dict()
 for i in keys6[5:149]:
-    co2dis_sort6[i]=round(sum(co2dis6[i])/len(co2dis6[i]),2)
+    co2dis_sort6[i]=round(sum(co2dis6[i])/len(co2dis6[i]),2) # get the everage distance
 
 
 for j in range(0,len(id4)):
@@ -88,13 +91,13 @@ co2dis_sort4 = dict()
 for i in keys4[5:149]:
     co2dis_sort4[i]=round(sum(co2dis4[i])/len(co2dis4[i]),2)
 
-
+# fitting the data using linear fitting
 fitting6 = np.polyfit(list(co2dis_sort6.keys()),list(co2dis_sort6.values()),1)
 p6 = np.poly1d(fitting6)
 fitting4 = np.polyfit(list(co2dis_sort4.keys()),list(co2dis_sort4.values()),1)
 p4 = np.poly1d(fitting4)
 
-
+# plot
 fig, ax1 = plt.subplots()
 
 ax1.plot(distance6,coord6,'.',color=[0,1,0],alpha=0.2,label='6 bars')
@@ -125,7 +128,8 @@ plt.xlim(0,14)
 
 
 
-##Cu segregation test
+## Cu segregation test
+# 
 co2element10 = dict()
 co2element6 = dict()
 co2element4 = dict()
