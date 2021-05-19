@@ -84,13 +84,16 @@ print(keys1)
 #countnum2 = np.array([value[1] for value in vor_top102])
 #fraction2 = (countnum2/float(len(voronoi2)))*100
 #keys2 = [value[0] for value in vor_top102]
+
+# When we done the top10 voronoi indexes for the melting-quenching metallic glass,
+# We need to also calculate the concentrations according to those indexes for every particles
 a = 0
 keys2 = []
 fraction2 = []
-print("2")
+
 for i in range(0,len(sort_vori2)):
     for j in range(0,len(vor_top101)):
-        if sort_vori2[i][0]==vor_top101[j][0]:
+        if sort_vori2[i][0]==vor_top101[j][0]: # find the same Voronoi Index and calculate the fraction
             fraction2.append((round((float(sort_vori2[i][1]) / float(len(voronoi2))*100), 5)))  #check: let round to 5 digits
             keys2.append(sort_vori2[i][0])
             a = a + 1
@@ -111,7 +114,7 @@ for i in range(0,len(keys2)):
 a = 0
 keys3 = []
 fraction3 = []
-print(3)
+
 for i in range(0,len(sort_vori3)):
     for j in range(0,len(vor_top101)):
         if sort_vori3[i][0]==vor_top101[j][0]:
@@ -132,7 +135,7 @@ for i in range(0,len(keys3)):
         keys3[num] = t
         fraction3[num] = t_value
 
-print(4)
+
 a = 0
 keys4 = []
 fraction4 = []
