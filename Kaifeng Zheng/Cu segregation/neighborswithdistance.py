@@ -129,7 +129,10 @@ plt.xlim(0,14)
 
 
 ## Cu segregation test
-
+####################part 2#######################################
+"""
+This part is to draw the number density vs Cu concentration plot
+"""
 co2element10 = dict() #{number of neighbors: type of atoms}
 co2element6 = dict()
 co2element4 = dict()
@@ -158,7 +161,6 @@ for j in range(0,len(id4)):
         co2element4[coord4[j]].append(type4[j])
 keyselement4 = sorted(co2element4)
 
-################################################TRANFORMATION########################################################################
 element10 = dict()
 element6 = dict()
 element4 = dict()
@@ -175,13 +177,12 @@ for i in keyselement6:
 for i in keyselement4:
     T_k4.append(p6(i))
 
-##############################################END TRANSFORMATION######################################################################
 for i in keyselement10:
     num = 0
     for j in range(0,len(co2element10[i])):
         if co2element10[i][j]==2:
             num = num + 1
-    element10[i]=round((num/len(co2element10[i])),2)
+    element10[i]=round((num/len(co2element10[i])),2) # calculate element concentration
 
 for i in keyselement6:
     num = 0
@@ -239,12 +240,12 @@ for i in range(0,len(T_k4),3):
     avex4.append(round(sumx/3,10))
     avey4.append(round(sumy/3,10))
 
+# using spline to get the trends of the data 
 sp1 = UnivariateSpline(avex10[7:],avey10[7:],k=5,s=900)
 sp2 = UnivariateSpline(avex6[7:],avey6[7:],k=5,s=700)
 sp3 = UnivariateSpline(avex4[7:],avey4[7:],k=5,s=900)
+
 fig, ax2 = plt.subplots()
-
-
 ax2.tick_params(which='both',right=True, top=True)
 ax2.plot(T_k10,list(element10.values()),'.',color='cyan',label = '10 bars')
 ax2.plot(T_k6,list(element6.values()),'.',color = [0,1,0],label = '6 bars')
@@ -275,9 +276,12 @@ for side in ax2.spines.keys():  # 'top', 'bottom', 'left', 'right'
     ax2.spines[side].set_linewidth(2)
 
 
-
+#############################part 3####################################################
+"""
+draw a distance vs Cu concentration plot
+"""
 fig,ax3 = plt.subplots()
-
+#average position
 avex10 = []
 avey10 = []
 avex6 = []
