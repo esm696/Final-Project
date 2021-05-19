@@ -64,14 +64,14 @@ co2dis4 = dict()
 mincoo4 = min(coord4)
 maxcoo4 = max(coord4)
 
-#add element in it
+# number of neighbors vs atom-center distance
 for j in range(0,len(id6)):
     if co2dis6.__contains__(coord6[j]):
         co2dis6[coord6[j]].append(distance6[j])
     else:
         co2dis6[coord6[j]]=list()
         co2dis6[coord6[j]].append(distance6[j])
-#sort the ddict 
+#sort the dict 
 keys6 = sorted(co2dis6)
 
 co2dis_sort6 = dict()
@@ -129,8 +129,8 @@ plt.xlim(0,14)
 
 
 ## Cu segregation test
-# 
-co2element10 = dict()
+
+co2element10 = dict() #{number of neighbors: type of atoms}
 co2element6 = dict()
 co2element4 = dict()
 for j in range(0,len(id10)):
@@ -139,7 +139,7 @@ for j in range(0,len(id10)):
     else:
         co2element10[coord10[j]]=list()
         co2element10[coord10[j]].append(type10[j])
-keyselement10 = sorted(co2element10)
+keyselement10 = sorted(co2element10) #sort using number of neighbors
 
 
 for j in range(0,len(id6)):
@@ -158,10 +158,10 @@ for j in range(0,len(id4)):
         co2element4[coord4[j]].append(type4[j])
 keyselement4 = sorted(co2element4)
 
+################################################TRANFORMATION########################################################################
 element10 = dict()
 element6 = dict()
 element4 = dict()
-################################################TRANFORMATION########################################################################
 T_k10 = []
 T_k6 = []
 T_k4 = []
@@ -169,7 +169,7 @@ y10 = []
 y6 = []
 y4 = []
 for i in keyselement10:
-    T_k10.append(p6(i))
+    T_k10.append(p6(i)) #add the linear fitting parameters
 for i in keyselement6:
     T_k6.append(p6(i))
 for i in keyselement4:
@@ -196,7 +196,9 @@ for i in keyselement4:
         if co2element4[i][j]==2:
             num = num + 1
     element4[i]=round((num/len(co2element4[i])),2)
-
+"""
+This part is to claculate average position
+"""
 
 avex10 = []
 avey10 = []
@@ -204,7 +206,6 @@ avex6 = []
 avey6 = []
 avex4 = []
 avey4 = []
-
 for i in range(0,len(T_k10),3):
     sumx = 0
     sumy = 0
