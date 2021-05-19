@@ -16,9 +16,7 @@ rc('font',**{'family':'serif','serif':['Arial']}) #set the font
 
 
 def take(n,iterable):
-    """
-    
-    """
+
     return list(islice(iterable,n)) # take elements from a list("iterable") from 0 to n
 #read files
 
@@ -109,16 +107,6 @@ for i in range(0,len(keys2)):
         fraction2[i]=fraction2[num]
         keys2[num]=t
         fraction2[num]=t_value
-#check
-for i in range(0,len(keys2)):
-    if not sort_vori2.__contains__((keys2[i],math.ceil(fraction2[i]*len(voronoi2)))) and \
-            not sort_vori2.__contains__((keys2[i],math.floor(fraction2[i]*len(voronoi2)))):
-        print('%d'%i)
-        print(False)
-    else:
-        if i == len(keys2)-1:
-            print(True)
-
 
 a = 0
 keys3 = []
@@ -144,16 +132,6 @@ for i in range(0,len(keys3)):
         keys3[num] = t
         fraction3[num] = t_value
 
-#check: letting round to 5 digits
-for i in range(0,len(keys3)):
-    if not sort_vori3.__contains__((keys3[i],math.ceil(fraction3[i]*len(voronoi3)))) and \
-            not sort_vori3.__contains__((keys3[i],math.floor(fraction3[i]*len(voronoi3)))):
-        print('%d'%i)
-        print(False)
-    else:
-        if i==len(keys3)-1:
-            print(True)
-
 print(4)
 a = 0
 keys4 = []
@@ -176,17 +154,6 @@ for i in range(0,len(keys4)):
         fraction4[i] = fraction4[num]
         keys4[num] = t
         fraction4[num] = t_value
-
-
-#check: let round to 5 digits
-for i in range(0,len(keys4)):
-    if not sort_vori4.__contains__((keys4[i],math.ceil(fraction4[i]*len(voronoi4)))) and \
-            not sort_vori4.__contains__((keys4[i],math.floor(fraction4[i]*len(voronoi4)))):
-        print('%d'%i)
-        print(False)
-    if i ==len(keys4)-1:
-            print(True)
-
 
 print(keys1)
 print(keys2)
